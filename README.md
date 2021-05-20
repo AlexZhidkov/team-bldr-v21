@@ -1,6 +1,8 @@
 # TeamBldr
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.0.
+https://medium.com/kabbage-engineering/angular-pwa-app-notification-using-firebase-cloud-messaging-d1b7bd171b98
+https://github.com/angular/angularfire/discussions/1923
 
 ## Development server
 
