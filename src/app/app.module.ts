@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { AngularFireModule } from '@angular/fire';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -28,6 +29,7 @@ import { LoginComponent } from './login/login.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
     NgxAuthFirebaseUIModule.forRoot(environment.firebase, undefined, {
       toastMessageOnAuthSuccess: false,
       authGuardFallbackURL: '/login',
