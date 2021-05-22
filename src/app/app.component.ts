@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseApp } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import 'firebase/messaging';
@@ -12,14 +13,17 @@ import { LinkMenuItem } from 'ngx-auth-firebaseui';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  user: firebase.default.User | null;
   showSignInButton: boolean = false;
   avatarLinks: LinkMenuItem[] = [
+    { icon: 'notifications', text: 'Enable Notifications', callback: () => { this.permitToNotify(); } },
     { icon: 'event_note', text: 'Events', callback: () => { this.router.navigate(['events']); } },
   ];
 
   constructor(
     private auth: AngularFireAuth,
     private firebaseApp: FirebaseApp,
+    private afs: AngularFirestore,
     updates: SwUpdate, push: SwPush,
     private router: Router
   ) {
@@ -44,7 +48,8 @@ export class AppComponent implements OnInit {
     const messaging = this.firebaseApp.messaging();
     Notification.requestPermission()
       .then(() => messaging.getToken().then(token => {
-        console.log('token = ', token);
+        console.log('Register token ', token);
+        this.afs.doc<any>(`tribes/test/members/${this.user?.uid}`).update({ fcmToken: token });
       }))
       .catch(err => {
         console.log('Unable to get permission to notify.', err);
@@ -53,6 +58,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user.subscribe(user => {
+      this.user = user;
       this.showSignInButton = Boolean(!user);
     });
   }
