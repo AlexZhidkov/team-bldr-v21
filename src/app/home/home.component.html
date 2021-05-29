@@ -16,12 +16,13 @@
         </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary">SEND INVITES</button>
+        <button mat-raised-button color="primary" (click)="sendMessages(membersList.selectedOptions.selected)">SEND
+            INVITES</button>
     </mat-card-actions>
 </mat-card>
 
 <mat-selection-list #membersList>
-    <mat-list-option *ngFor="let member of members">
+    <mat-list-option *ngFor="let member of members" [value]="member">
         {{member.name}}
     </mat-list-option>
 </mat-selection-list>

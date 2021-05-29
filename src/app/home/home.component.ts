@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import firebase from 'firebase/app';
+import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +9,14 @@ import firebase from 'firebase/app';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  user: firebase.User | null;
+  user: firebase.default.User | null;
   tribe: any;
   members: any[];
 
   constructor(
     private auth: AngularFireAuth,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private fns: AngularFireFunctions,
   ) { }
 
   ngOnInit(): void {
@@ -28,4 +29,15 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  sendMessages(selectedMembers: any[]) {
+    selectedMembers.forEach(member => {
+      debugger;
+    });
+    const sendMessage = this.fns.httpsCallable('sendTestMessageToAlexPhone');
+    var data = sendMessage({ test: "AZ test" });
+    data.subscribe(r => {
+      console.log(r);
+      debugger;
+    })
+  }
 }

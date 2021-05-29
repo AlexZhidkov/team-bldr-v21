@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireFunctionsModule, REGION, USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -30,6 +31,7 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFireFunctionsModule,
     NgxAuthFirebaseUIModule.forRoot(environment.firebase, undefined, {
       toastMessageOnAuthSuccess: false,
       authGuardFallbackURL: '/login',
@@ -53,6 +55,8 @@ import { LoginComponent } from './login/login.component';
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-AU' },
+    { provide: REGION, useValue: 'australia-southeast1' },
+    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined },
   ],
   bootstrap: [AppComponent]
 })

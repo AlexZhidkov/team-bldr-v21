@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
       const messaging = this.firebaseApp.messaging();
       console.log('MESSAGING SW', serviceWorkerRegistration);
       messaging.getToken({
-        vapidKey: 'KEY',
+        vapidKey: '',
         serviceWorkerRegistration  // this should be the fix for angularfire not working with ngsw
       })
     })
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     Notification.requestPermission()
       .then(() => messaging.getToken().then(token => {
         console.log('Register token ', token);
-        this.afs.doc<any>(`tribes/test/members/${this.user?.uid}`).update({ fcmToken: token });
+        this.afs.doc<any>(`users/${this.user?.uid}`).update({ fcmToken: token });
       }))
       .catch(err => {
         console.log('Unable to get permission to notify.', err);
