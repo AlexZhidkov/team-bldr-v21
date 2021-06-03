@@ -11,6 +11,9 @@ https://medium.com/litslink/firebase-admin-sdk-basics-in-examples-ee7e009a1116
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+`ng build --source-map`
+`http-server-spa dist/ index.html 18080`
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.

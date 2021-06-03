@@ -9,28 +9,39 @@ const functions = require("firebase-functions");
 // });
 
 const admin = require('firebase-admin');
+admin.initializeApp();
+
+const firebase = require("firebase");
+firebase.initializeApp({
+    apiKey: 'AIzaSyAX7z8C60wsmx071CEXI36afIdW0dRwecw',
+    authDomain: 'team- bldr.firebaseapp.com',
+    projectId: 'team-bldr',
+});
+
+const db = firebase.firestore();
 
 exports.sendTestMessageToAlexPhone = functions.region('australia-southeast1').https.onCall((data, context) => {
-    // This registration token comes from the client FCM SDKs.
-    const registrationToken = '';
+    db.doc('users/' + data.userId).get().then((user) => {
+        if (!user.exists) {
+            throw new functions.https.HttpsError('not-found', 'User record not found for ID ' + data.userId);
+        }
 
-    const message = {
-        data: {
-            score: '850',
-            time: '2:45',
-        },
-        token: registrationToken,
-    };
+        const message = {
+            webpush: data.webpush,
+            token: user.data().fcmToken,
+        };
 
+        console.log(message);
 
-    // Send a message to the device corresponding to the provided
-    // registration token.
-    admin.messaging().send(message)
-        .then((response) => {
-            // Response is a message ID string.
-            console.log('Successfully sent message:', response);
-        })
-        .catch((error) => {
-            console.log('Error sending message:', error);
-        });
+        // Send a message to the device corresponding to the provided registration token.
+        admin.messaging().send(message)
+            .then((response) => {
+                // Response is a message ID string.
+                console.log('Successfully sent message:', response);
+            })
+            .catch((error) => {
+                console.log('Error sending message:', error);
+                throw new functions.https.HttpsError('internal', error);
+            });
+    });
 });
