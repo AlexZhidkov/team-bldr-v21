@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatListOption } from '@angular/material/list/selection-list';
 import { ActivatedRoute } from '@angular/router';
@@ -15,12 +15,16 @@ export class TeamEventComponent implements OnInit {
   user: firebase.default.User | null;
   tribe: any;
   members: any[];
+  membersInvited: any[];
+  membersAccepted: any[];
+  membersRejected: any[];
   eventId: string | null;
   tribeId = 'test';
   teamEventDoc: AngularFirestoreDocument<any>;
   teamEvent: Observable<any>;
   eventDate: Date;
   eventTime: any;
+  eventMembersCollection: AngularFirestoreCollection<any>;
 
   constructor(
     private auth: AngularFireAuth,
@@ -55,6 +59,13 @@ export class TeamEventComponent implements OnInit {
 
     var membersCollection = this.afs.collection<any>('tribes/test/members');
     membersCollection.valueChanges({ idField: 'userId' }).subscribe(list => this.members = list);
+
+    this.eventMembersCollection = this.afs.collection<any>(`tribes/${this.tribeId}/events/${this.eventId}/members`);
+    this.eventMembersCollection.valueChanges({ idField: 'userId' }).subscribe(list => {
+      this.membersInvited = list.filter(m => m.status === 'invited');
+      this.membersAccepted = list.filter(m => m.status === 'accepted');
+      this.membersRejected = list.filter(m => m.status === 'rejected');
+    });
   }
 
   updateEventDate(date: Date): void {
@@ -75,42 +86,47 @@ export class TeamEventComponent implements OnInit {
 
   sendInvites(selectedMembers: MatListOption[]) {
     selectedMembers.forEach((member: MatListOption) => {
-      console.log(member.value);
-      const sendMessage = this.fns.httpsCallable('sendWebpushMessage');
-      sendMessage({
-        userId: member.value.userId,
-        webpush:
-        {
-          notification: {
-            title: 'Beach Volleyball on Floreat',
-            body: 'game on Saturday at 7:30',
-            requireInteraction: true,
-            actions: [
-              {
-                action: "team-bldr-accepted",
-                icon: "Check",
-                title: "I'm in"
-              },
-              {
-                action: "team-bldr-rejected",
-                icon: "Clear",
-                title: "Can't make it"
-              },
-              {
-                action: "team-bldr-message",
-                icon: "Message",
-                title: "Message"
-              },
-            ],
-          },
-          fcm_options: {
-            link: 'https://team-bldr.web.app/'
-          }
+      const userId = member.value.userId;
+      this.eventMembersCollection.doc(userId).set({ name: member.value.name, status: 'invited' });
+      //this.sendPushMessage(userId);
+    });
+  }
+
+  sendPushMessage(userId: string) {
+    const sendMessage = this.fns.httpsCallable('sendWebpushMessage');
+    sendMessage({
+      userId: userId,
+      webpush:
+      {
+        notification: {
+          title: 'Beach Volleyball on Floreat',
+          body: 'game on Saturday at 7:30',
+          requireInteraction: true,
+          actions: [
+            {
+              action: "team-bldr-accepted",
+              icon: "Check",
+              title: "I'm in"
+            },
+            {
+              action: "team-bldr-rejected",
+              icon: "Clear",
+              title: "Can't make it"
+            },
+            {
+              action: "team-bldr-message",
+              icon: "Message",
+              title: "Message"
+            },
+          ],
+        },
+        fcm_options: {
+          link: 'https://team-bldr.web.app/'
         }
-      }).subscribe(r => {
-        console.log(r);
-        debugger;
-      });
+      }
+    }).subscribe(r => {
+      console.log(r);
+      debugger;
     });
   }
 }

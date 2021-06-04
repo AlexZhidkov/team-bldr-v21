@@ -5,6 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule } from '@angular/material/icon';
@@ -58,6 +59,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
     MatListModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatChipsModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-AU' },

@@ -17,11 +17,34 @@
                     (ngModelChange)="updateEventTime($event)">
             </mat-form-field>
         </div>
+
         <mat-form-field class="full-width">
             <mat-label>Message</mat-label>
             <input matInput name="eventName" [ngModel]="(teamEvent | async)?.name"
                 (ngModelChange)="teamEventDoc.update({name: $event})">
         </mat-form-field>
+
+        <mat-label>Accepted: <strong>{{membersAccepted?.length}}</strong></mat-label>
+        <mat-chip-list aria-label="Accepted" selectable=false>
+            <mat-chip *ngFor="let member of membersAccepted">
+                {{member.name}}
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-label>Invited: <strong>{{membersInvited?.length}}</strong></mat-label>
+        <mat-chip-list aria-label="Invited" selectable=false>
+            <mat-chip *ngFor="let member of membersInvited">
+                {{member.name}}
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-label>Rejected: <strong>{{membersRejected?.length}}</strong></mat-label>
+        <mat-chip-list aria-label="Invited" selectable=false>
+            <mat-chip *ngFor="let member of membersRejected">
+                {{member.name}}
+            </mat-chip>
+        </mat-chip-list>
+
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" (click)="sendInvites(membersList.selectedOptions.selected)">
