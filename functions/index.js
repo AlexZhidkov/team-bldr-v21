@@ -20,7 +20,7 @@ firebase.initializeApp({
 
 const db = firebase.firestore();
 
-exports.sendTestMessageToAlexPhone = functions.region('australia-southeast1').https.onCall((data, context) => {
+exports.sendWebpushMessage = functions.region('australia-southeast1').https.onCall((data, context) => {
     db.doc('users/' + data.userId).get().then((user) => {
         if (!user.exists) {
             throw new functions.https.HttpsError('not-found', 'User record not found for ID ' + data.userId);
@@ -43,5 +43,15 @@ exports.sendTestMessageToAlexPhone = functions.region('australia-southeast1').ht
                 console.log('Error sending message:', error);
                 throw new functions.https.HttpsError('internal', error);
             });
+    });
+});
+
+exports.eventRegistration = functions.region('australia-southeast1').https.onCall((data, context) => {
+    db.doc('users/' + data.userId).get().then((user) => {
+        if (!user.exists) {
+            throw new functions.https.HttpsError('not-found', 'User record not found for ID ' + data.userId);
+        }
+
+        console.log(message);
     });
 });
