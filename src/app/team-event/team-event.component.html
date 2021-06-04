@@ -1,0 +1,37 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{tribe?.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div fxLayout='row'>
+            <mat-form-field fxFlex="45%">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" [ngModel]="eventDate"
+                    (dateChange)="updateEventDate($event.value)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <span fxFlex="10%"></span>
+            <mat-form-field fxFlex="45%">
+                <input type="time" matInput placeholder="Start Time" [ngModel]="eventTime" name="startTime"
+                    (ngModelChange)="updateEventTime($event)">
+            </mat-form-field>
+        </div>
+        <mat-form-field class="full-width">
+            <mat-label>Message</mat-label>
+            <input matInput name="eventName" [ngModel]="(teamEvent | async)?.name"
+                (ngModelChange)="teamEventDoc.update({name: $event})">
+        </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="sendInvites(membersList.selectedOptions.selected)">
+            SEND INVITES
+        </button>
+    </mat-card-actions>
+</mat-card>
+
+<mat-selection-list #membersList>
+    <mat-list-option *ngFor="let member of members" [value]="member">
+        {{member.name}}
+    </mat-list-option>
+</mat-selection-list>
