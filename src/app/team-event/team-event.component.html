@@ -50,6 +50,12 @@
         <button mat-raised-button color="primary" (click)="sendInvites(membersList.selectedOptions.selected)">
             SEND INVITES
         </button>
+        <button mat-raised-button (click)="membersList.selectAll()">
+            SELECT ALL
+        </button>
+        <button mat-raised-button [routerLink]="['/messages', eventId]">
+            MESSAGES
+        </button>
     </mat-card-actions>
 </mat-card>
 
