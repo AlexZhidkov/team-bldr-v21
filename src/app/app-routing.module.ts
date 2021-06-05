@@ -8,6 +8,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'event/:id', component: TeamEventComponent },
+  { path: 'event', component: TeamEventComponent },
   { path: 'messages/:id', component: MessagesComponent },
   { path: '', component: HomeComponent }
 ];

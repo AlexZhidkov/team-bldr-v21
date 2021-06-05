@@ -34,16 +34,13 @@ export class TeamEventComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.eventId = this.route.snapshot.queryParamMap.get('id');
+    this.eventId = this.route.snapshot.paramMap.get('id');
     if (!this.eventId) {
       console.log('New Event');
-      this.eventId = '1';
-      /*
       this.eventId = this.afs.createId();
       this.afs.collection(`/tribes/${this.tribeId}/events`)
         .doc(this.eventId)
         .set({});
-        */
     }
 
     this.afs.doc(`tribes/${this.tribeId}`).get().subscribe(doc => this.tribe = doc.data());
@@ -79,6 +76,8 @@ export class TeamEventComponent implements OnInit {
   }
 
   updateEventDateTime(): void {
+    if (!(this.eventDate && this.eventTime)) return;
+
     this.eventDate.setHours(this.eventTime.substring(0, 2));
     this.eventDate.setMinutes(this.eventTime.substring(3, 5));
     this.teamEventDoc.update({ dateTime: this.eventDate });

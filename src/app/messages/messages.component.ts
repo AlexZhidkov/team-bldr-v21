@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-import * as firebase from 'firebase';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -25,8 +24,7 @@ export class MessagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.eventId = this.route.snapshot.queryParamMap.get('id');
-    this.eventId = "1";
+    this.eventId = this.route.snapshot.paramMap.get('id');
     this.auth.user.subscribe(user => {
       this.user = user;
     });
@@ -40,7 +38,7 @@ export class MessagesComponent implements OnInit {
       userId: this.user?.uid,
       img: this.user?.photoURL,
       name: this.user?.displayName,
-      ts: firebase.default.firestore.FieldValue.serverTimestamp(),
+      ts: new Date(),
       text: this.text
     });
     this.text = "";

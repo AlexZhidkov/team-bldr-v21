@@ -19,17 +19,13 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.auth.user.subscribe(user => {
       this.user = user;
 
       this.afs.doc(`tribes/${this.tribeId}`).get().subscribe(doc => this.tribe = doc.data());
-      this.afs.collection<any>(`/tribes/${this.tribeId}/events`).valueChanges({ idField: 'id' })
+      this.afs.collection<any>(`/tribes/${this.tribeId}/events`, ref => ref.orderBy('dateTime', 'desc'))
+        .valueChanges({ idField: 'id' })
         .subscribe(events => this.teamEvents = events);
     });
-  }
-
-  newEvent() {
-
   }
 }
