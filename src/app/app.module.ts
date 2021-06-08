@@ -24,6 +24,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
 import { SendMessageComponent } from './send-message/send-message.component';
+import { TeamEditComponent } from './team-edit/team-edit.component';
 import { TeamEventComponent } from './team-event/team-event.component';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
     SendMessageComponent,
     TeamEventComponent,
     MessagesComponent,
+    TeamEditComponent,
   ],
   imports: [
     BrowserModule,
