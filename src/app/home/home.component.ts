@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   tribe: Observable<Tribe | undefined>;
   teamEvents: TeamEvent[];
   tribeId = 'test';
+  isLoading = true;
 
   constructor(
     private auth: AngularFireAuth,
@@ -25,14 +26,23 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.auth.user.subscribe(user => {
       this.user = user;
+      if (!this.user) {
+        this.isLoading = false;
+        return;
+      }
 
       this.tribeDoc = this.afs.doc<Tribe>(`tribes/${this.tribeId}`);
       this.tribe = this.tribeDoc.valueChanges();
+      this.tribe.subscribe(() => this.isLoading = false);
 
       this.afs.collection<TeamEvent>(`/tribes/${this.tribeId}/events`, ref => ref.orderBy('dateTime', 'desc'))
         .valueChanges({ idField: 'id' })
         .subscribe(events => this.teamEvents = events);
-    });
+    },
+      (error) => {
+        console.error(error);
+        this.isLoading = false;
+      });
   }
 
   teamEventDateTime(dateTime: Date | firebase.default.firestore.Timestamp) {

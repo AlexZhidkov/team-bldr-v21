@@ -1,4 +1,30 @@
-<mat-card>
+<mat-card *ngIf="!user">
+    <mat-card-header>
+        <mat-card-title>Welcome to Team Builder App</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+            To become a member of existing team please ask the team administrator for a signup link.
+        </p>
+        <p>
+            If you're a member already please sign in.
+        </p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="accent" routerLink="/login">SIGN IN</button>
+    </mat-card-actions>
+    <mat-card-content>
+        <p>
+            To start a new team.
+        </p>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" routerLink="/event">CREATE NEW TEAM</button>
+    </mat-card-actions>
+</mat-card>
+
+<mat-card *ngIf="user">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
     <mat-card-header>
         <mat-card-title>{{(tribe | async)?.name}}</mat-card-title>
     </mat-card-header>
