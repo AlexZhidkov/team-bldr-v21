@@ -1,14 +1,24 @@
 <mat-card>
     <mat-card-header>
-        <mat-card-title>{{tribe?.name}}</mat-card-title>
+        <mat-card-title>{{(tribe | async)?.name}}</mat-card-title>
     </mat-card-header>
+    <mat-card-content>
+        <mat-form-field class="full-width">
+            <textarea matInput rows="5" placeholder="Description" name="description"
+                [ngModel]="(tribe | async)?.description"
+                (ngModelChange)="tribeDoc.update({description: $event})"></textarea>
+        </mat-form-field>
+        <p>
+            To invite someone to join the group ask them to click on thi link to sign up
+        </p>
+    </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" routerLink="/event">NEW EVENT</button>
+        <button mat-raised-button color="primary" routerLink="/event">CREATE NEW EVENT</button>
     </mat-card-actions>
 </mat-card>
 
 <mat-nav-list>
     <a mat-list-item [routerLink]="['/event', teamEvent.id]" *ngFor="let teamEvent of teamEvents">
-        {{ (teamEvent.dateTime)?.toDate() | date:'medium' }}
+        {{ teamEventDateTime(teamEvent.dateTime) | date:'medium' }}
     </a>
 </mat-nav-list>

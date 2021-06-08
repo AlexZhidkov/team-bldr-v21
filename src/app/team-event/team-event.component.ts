@@ -5,6 +5,9 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatListOption } from '@angular/material/list/selection-list';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Member } from '../models/member';
+import { TeamEvent } from '../models/team-event';
+import { Tribe } from '../models/tribe';
 
 @Component({
   selector: 'app-team-event',
@@ -13,18 +16,18 @@ import { Observable } from 'rxjs';
 })
 export class TeamEventComponent implements OnInit {
   user: firebase.default.User | null;
-  tribe: any;
-  members: any[];
-  membersInvited: any[];
-  membersAccepted: any[];
-  membersRejected: any[];
+  tribe: Tribe;
+  members: Member[];
+  membersInvited: Member[];
+  membersAccepted: Member[];
+  membersRejected: Member[];
   eventId: string | null;
   tribeId = 'test';
-  teamEventDoc: AngularFirestoreDocument<any>;
-  teamEvent: Observable<any>;
+  teamEventDoc: AngularFirestoreDocument<TeamEvent>;
+  teamEvent: Observable<TeamEvent | undefined>;
   eventDate: Date;
-  eventTime: any;
-  eventMembersCollection: AngularFirestoreCollection<any>;
+  eventTime: string;
+  eventMembersCollection: AngularFirestoreCollection<Member>;
 
   constructor(
     private auth: AngularFireAuth,
@@ -43,12 +46,17 @@ export class TeamEventComponent implements OnInit {
         .set({});
     }
 
-    this.afs.doc(`tribes/${this.tribeId}`).get().subscribe(doc => this.tribe = doc.data());
+    this.afs.doc<Tribe>(`tribes/${this.tribeId}`).get().subscribe(doc => {
+      const tribeData = doc.data();
+      if (tribeData) {
+        this.tribe = tribeData;
+      }
+    })
 
-    this.teamEventDoc = this.afs.collection(`tribes/${this.tribeId}/events`).doc(this.eventId);
+    this.teamEventDoc = this.afs.doc<TeamEvent>(`tribes/${this.tribeId}/events/${this.eventId}`);
     this.teamEvent = this.teamEventDoc.valueChanges();
     this.teamEvent.subscribe(te => {
-      if (te.dateTime) {
+      if (te?.dateTime) {
         this.eventDate = (te.dateTime as firebase.default.firestore.Timestamp).toDate();
         this.eventTime = this.eventDate.toTimeString().substring(0, 5); // `${this.eventDate.getHours()}:${this.eventDate.getMinutes()}`;
       }
@@ -70,7 +78,7 @@ export class TeamEventComponent implements OnInit {
     this.updateEventDateTime();
   }
 
-  updateEventTime(time: any): void {
+  updateEventTime(time: string): void {
     this.eventTime = time;
     this.updateEventDateTime();
   }
@@ -78,8 +86,8 @@ export class TeamEventComponent implements OnInit {
   updateEventDateTime(): void {
     if (!(this.eventDate && this.eventTime)) return;
 
-    this.eventDate.setHours(this.eventTime.substring(0, 2));
-    this.eventDate.setMinutes(this.eventTime.substring(3, 5));
+    this.eventDate.setHours(Number(this.eventTime.substring(0, 2)));
+    this.eventDate.setMinutes(Number(this.eventTime.substring(3, 5)));
     this.teamEventDoc.update({ dateTime: this.eventDate });
   }
 

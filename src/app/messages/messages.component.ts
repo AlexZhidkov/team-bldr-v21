@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Message } from '../models/message';
 
 @Component({
   selector: 'app-messages',
@@ -11,8 +12,8 @@ import { Observable } from 'rxjs';
 })
 export class MessagesComponent implements OnInit {
   user: firebase.default.User | null;
-  private messagesCollection: AngularFirestoreCollection<any>;
-  messages: Observable<any[]>;
+  private messagesCollection: AngularFirestoreCollection<Message>;
+  messages: Observable<Message[]>;
   text: string;
   tribeId = 'test';
   eventId: string | null;
@@ -28,16 +29,18 @@ export class MessagesComponent implements OnInit {
     this.auth.user.subscribe(user => {
       this.user = user;
     });
-    this.messagesCollection = this.afs.collection<any>(`tribes/${this.tribeId}/events/${this.eventId}/messages`, ref =>
+    this.messagesCollection = this.afs.collection<Message>(`tribes/${this.tribeId}/events/${this.eventId}/messages`, ref =>
       ref.orderBy('ts', 'desc'));
     this.messages = this.messagesCollection.valueChanges();
   }
 
   sendMessage() {
+    if (!this.user) return;
+
     this.messagesCollection.add({
-      userId: this.user?.uid,
-      img: this.user?.photoURL,
-      name: this.user?.displayName,
+      userId: this.user.uid,
+      img: this.user.photoURL,
+      name: this.user.displayName,
       ts: new Date(),
       text: this.text
     });
