@@ -7,4 +7,5 @@ export interface Tribe {
     members: Member[];
     name: string;
     description: string;
+    adminIds: string[];
 }
