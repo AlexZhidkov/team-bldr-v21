@@ -1,48 +1,51 @@
-<mat-card *ngIf="!user">
-    <mat-card-header>
-        <mat-card-title>Welcome to Team Builder App </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <p>
-            To become a member of existing team please ask the team administrator for a signup link.
-        </p>
-        <p>
-            If you're a member already please sign in.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="accent" routerLink="/login">SIGN IN</button>
-    </mat-card-actions>
-    <mat-card-content>
-        <p>
-            To start a new team.
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" routerLink="/event">CREATE NEW TEAM</button>
-    </mat-card-actions>
-</mat-card>
+<mat-spinner style="margin:0 auto;" *ngIf="isLoading"></mat-spinner>
 
-<mat-card *ngIf="user">
-    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <mat-card-header>
-        <mat-card-title>{{(tribe | async)?.name}}</mat-card-title>
-        <span fxFlex></span> <button mat-icon-button routerLink="/team">
-            <mat-icon>edit</mat-icon>
-        </button>
-    </mat-card-header>
-    <mat-card-content>
-        <p>
-            {{(tribe | async)?.description}}
-        </p>
-        <p>
-            To invite someone to join the group ask them to click on thi link to sign up
-        </p>
-    </mat-card-content>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" routerLink="/event">CREATE NEW EVENT</button>
-    </mat-card-actions>
-</mat-card>
+<div *ngIf="!isLoading">
+    <mat-card *ngIf="!user">
+        <mat-card-header>
+            <mat-card-title>Welcome to Team Builder App </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                To become a member of existing team please ask the team administrator for a signup link.
+            </p>
+            <p>
+                If you're a member already please sign in.
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="accent" routerLink="/login">SIGN IN</button>
+        </mat-card-actions>
+        <mat-card-content>
+            <p>
+                To start a new team.
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" (click)="createNewTeam()">CREATE NEW TEAM</button>
+        </mat-card-actions>
+    </mat-card>
+
+    <mat-card *ngIf="user">
+        <mat-card-header>
+            <mat-card-title>{{(tribe | async)?.name}}</mat-card-title>
+            <span fxFlex></span> <button mat-icon-button routerLink="/team">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                {{(tribe | async)?.description}}
+            </p>
+            <p>
+                To invite someone to join the group ask them to click on thi link to sign up
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" routerLink="/event">CREATE NEW EVENT</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
 
 <mat-nav-list>
     <a mat-list-item [routerLink]="['/event', teamEvent.id]" *ngFor="let teamEvent of teamEvents">

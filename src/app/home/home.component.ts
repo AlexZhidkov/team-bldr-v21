@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TeamEvent } from '../models/team-event';
 import { Tribe } from '../models/tribe';
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private auth: AngularFireAuth,
     private afs: AngularFirestore,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -49,4 +51,8 @@ export class HomeComponent implements OnInit {
     return (<firebase.default.firestore.Timestamp>dateTime)?.toDate();
   }
 
+  createNewTeam() {
+    const newTeamId = this.afs.createId();
+    this.router.navigate(['team', newTeamId]);
+  }
 }
