@@ -40,6 +40,7 @@ export class TeamEditComponent implements OnInit {
           this.afs.collection(`teams`)
             .doc(this.teamId)
             .set({ adminIds: [this.user?.uid] });
+          this.afs.collection('users').doc(this.user?.uid).update({ teamId: this.teamId });
         }
         this.isLoading = false;
       });

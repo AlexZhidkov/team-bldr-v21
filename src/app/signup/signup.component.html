@@ -1,0 +1,25 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{(team | async)?.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-form-field class="full-width">
+            <mat-label>Your Name</mat-label>
+            <input matInput name="name" [ngModel]="(user | async)?.displayName"
+                (ngModelChange)="userDoc.update({displayName: $event})">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Phone Number Name</mat-label>
+            <input matInput name="phone" [ngModel]="(user | async)?.phoneNumber"
+                (ngModelChange)="userDoc.update({phoneNumber: $event})">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <textarea matInput rows="5" placeholder="Additional information" name="info"
+                [ngModel]="(user | async)?.info" (ngModelChange)="userDoc.update({info: $event})"></textarea>
+        </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" routerLink="/">GO TO DASHBOARD</button>
+    </mat-card-actions>
+</mat-card>

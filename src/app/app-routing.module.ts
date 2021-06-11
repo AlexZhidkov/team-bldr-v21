@@ -4,11 +4,13 @@ import { LoggedInGuard } from 'ngx-auth-firebaseui';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
+import { SignupComponent } from './signup/signup.component';
 import { TeamEditComponent } from './team-edit/team-edit.component';
 import { TeamEventComponent } from './team-event/team-event.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'signup/:id', component: SignupComponent, canActivate: [LoggedInGuard] },
   { path: 'team/:id', component: TeamEditComponent, canActivate: [LoggedInGuard] },
   { path: 'event/:id', component: TeamEventComponent, canActivate: [LoggedInGuard] },
   { path: 'event', component: TeamEventComponent, canActivate: [LoggedInGuard] },
