@@ -15,7 +15,7 @@ export class MessagesComponent implements OnInit {
   private messagesCollection: AngularFirestoreCollection<Message>;
   messages: Observable<Message[]>;
   text: string;
-  teamId = 'test';
+  teamId: string;
   eventId: string | null;
 
   constructor(
@@ -25,7 +25,21 @@ export class MessagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.eventId = this.route.snapshot.paramMap.get('id');
+    const teamId = this.route.snapshot.paramMap.get('teamId');
+    if (teamId) {
+      this.teamId = teamId;
+    } else {
+      console.error('Team ID is falsy');
+      return;
+    }
+    const eventId = this.route.snapshot.paramMap.get('eventId');
+    if (eventId) {
+      this.eventId = eventId;
+    } else {
+      console.error('Event ID is falsy');
+      return;
+    }
+
     this.auth.user.subscribe(user => {
       this.user = user;
     });

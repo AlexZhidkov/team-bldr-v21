@@ -21,8 +21,8 @@ export class TeamEventComponent implements OnInit {
   membersInvited: Member[];
   membersAccepted: Member[];
   membersRejected: Member[];
-  eventId: string | null;
-  teamId = 'test';
+  teamId: string;
+  eventId: string;
   teamEventDoc: AngularFirestoreDocument<TeamEvent>;
   teamEvent: Observable<TeamEvent | undefined>;
   eventDate: Date;
@@ -37,7 +37,21 @@ export class TeamEventComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.eventId = this.route.snapshot.paramMap.get('id');
+    const teamId = this.route.snapshot.paramMap.get('teamId');
+    if (teamId) {
+      this.teamId = teamId;
+    } else {
+      console.error('Team ID is falsy');
+      return;
+    }
+    const eventId = this.route.snapshot.paramMap.get('eventId');
+    if (eventId) {
+      this.eventId = eventId;
+    } else {
+      console.error('Event ID is falsy');
+      return;
+    }
+
     if (!this.eventId) {
       console.log('New Event');
       this.eventId = this.afs.createId();

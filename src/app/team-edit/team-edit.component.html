@@ -20,6 +20,6 @@
         </p>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" routerLink="/event">CREATE NEW EVENT</button>
+        <button mat-raised-button color="primary" [routerLink]="'/event/'+teamId">CREATE NEW EVENT</button>
     </mat-card-actions>
 </mat-card>

@@ -29,7 +29,7 @@
     <mat-card *ngIf="user">
         <mat-card-header>
             <mat-card-title>{{(team | async)?.name}}</mat-card-title>
-            <span fxFlex></span> <button mat-icon-button [routerLink]="'/team/' + teamId">
+            <span fxFlex></span> <button mat-icon-button [routerLink]="'/team/' + user.teamId">
                 <mat-icon>edit</mat-icon>
             </button>
         </mat-card-header>
@@ -42,13 +42,13 @@
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary" routerLink="/event">CREATE NEW EVENT</button>
+            <button mat-raised-button color="primary" [routerLink]="'/event/' + user.teamId">CREATE NEW EVENT</button>
         </mat-card-actions>
     </mat-card>
 </div>
 
 <mat-nav-list>
-    <a mat-list-item [routerLink]="['/event', teamEvent.id]" *ngFor="let teamEvent of teamEvents">
+    <a mat-list-item [routerLink]="['/event', user.teamId, teamEvent.id]" *ngFor="let teamEvent of teamEvents">
         {{ teamEventDateTime(teamEvent.dateTime) | date:'medium' }}
     </a>
 </mat-nav-list>

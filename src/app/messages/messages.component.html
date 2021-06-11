@@ -8,7 +8,7 @@
         <button mat-raised-button color="primary" (click)="sendMessage()" [disabled]="!(user && text)">
             SEND
         </button>
-        <button mat-raised-button [routerLink]="['/event', eventId]">
+        <button mat-raised-button [routerLink]="['/event', teamId, eventId]">
             EVENT
         </button>
     </mat-card-actions>

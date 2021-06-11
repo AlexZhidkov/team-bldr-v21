@@ -12,9 +12,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup/:id', component: SignupComponent, canActivate: [LoggedInGuard] },
   { path: 'team/:id', component: TeamEditComponent, canActivate: [LoggedInGuard] },
-  { path: 'event/:id', component: TeamEventComponent, canActivate: [LoggedInGuard] },
-  { path: 'event', component: TeamEventComponent, canActivate: [LoggedInGuard] },
-  { path: 'messages/:id', component: MessagesComponent, canActivate: [LoggedInGuard] },
+  { path: 'event/:teamId/:eventId', component: TeamEventComponent, canActivate: [LoggedInGuard] },
+  { path: 'event/:teamId', component: TeamEventComponent, canActivate: [LoggedInGuard] },
+  { path: 'messages/:teamId/:eventId', component: MessagesComponent, canActivate: [LoggedInGuard] },
   { path: '', component: HomeComponent }
 ];
 

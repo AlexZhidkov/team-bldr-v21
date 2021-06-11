@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Team } from '../models/team';
 import { TeamEvent } from '../models/team-event';
+import { TeamBuilderUser } from '../models/teamBuilderUser';
 
 @Component({
   selector: 'app-home',
@@ -12,11 +13,10 @@ import { TeamEvent } from '../models/team-event';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  user: firebase.default.User | null;
+  user: TeamBuilderUser;
   teamDoc: AngularFirestoreDocument<Team>;
   team: Observable<Team | undefined>;
   teamEvents: TeamEvent[];
-  teamId = 'test';
   isLoading = true;
 
   constructor(
@@ -27,19 +27,21 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user.subscribe(user => {
-      this.user = user;
-      if (!this.user) {
+      if (!user) {
         this.isLoading = false;
+        console.error('User object is falsy');
         return;
       }
+      this.afs.doc<TeamBuilderUser>(`users/${user.uid}`).get().subscribe(u => {
+        this.user = <TeamBuilderUser>u.data();
+        this.teamDoc = this.afs.doc<Team>(`teams/${this.user.teamId}`);
+        this.team = this.teamDoc.valueChanges();
+        this.team.subscribe(() => this.isLoading = false);
 
-      this.teamDoc = this.afs.doc<Team>(`teams/${this.teamId}`);
-      this.team = this.teamDoc.valueChanges();
-      this.team.subscribe(() => this.isLoading = false);
-
-      this.afs.collection<TeamEvent>(`/teams/${this.teamId}/events`, ref => ref.orderBy('dateTime', 'desc'))
-        .valueChanges({ idField: 'id' })
-        .subscribe(events => this.teamEvents = events);
+        this.afs.collection<TeamEvent>(`/teams/${this.user.teamId}/events`, ref => ref.orderBy('dateTime', 'desc'))
+          .valueChanges({ idField: 'id' })
+          .subscribe(events => this.teamEvents = events);
+      })
     },
       (error) => {
         console.error(error);
