@@ -1,7 +1,7 @@
 import { Member } from "./member";
 import { TeamEvent } from "./team-event";
 
-export interface Tribe {
+export interface Team {
     id?: string;
     events: TeamEvent[];
     members: Member[];

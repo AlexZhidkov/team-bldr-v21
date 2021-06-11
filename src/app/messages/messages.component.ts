@@ -15,7 +15,7 @@ export class MessagesComponent implements OnInit {
   private messagesCollection: AngularFirestoreCollection<Message>;
   messages: Observable<Message[]>;
   text: string;
-  tribeId = 'test';
+  teamId = 'test';
   eventId: string | null;
 
   constructor(
@@ -29,7 +29,7 @@ export class MessagesComponent implements OnInit {
     this.auth.user.subscribe(user => {
       this.user = user;
     });
-    this.messagesCollection = this.afs.collection<Message>(`tribes/${this.tribeId}/events/${this.eventId}/messages`, ref =>
+    this.messagesCollection = this.afs.collection<Message>(`teams/${this.teamId}/events/${this.eventId}/messages`, ref =>
       ref.orderBy('ts', 'desc'));
     this.messages = this.messagesCollection.valueChanges();
   }

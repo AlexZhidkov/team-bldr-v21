@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Tribe } from '../models/tribe';
+import { Team } from '../models/team';
 
 @Component({
   selector: 'app-team-edit',
@@ -12,8 +12,8 @@ import { Tribe } from '../models/tribe';
 })
 export class TeamEditComponent implements OnInit {
   user: firebase.default.User | null;
-  teamDoc: AngularFirestoreDocument<Tribe>;
-  team: Observable<Tribe | undefined>;
+  teamDoc: AngularFirestoreDocument<Team>;
+  team: Observable<Team | undefined>;
   teamId: string;
   isLoading = true;
 
@@ -33,11 +33,11 @@ export class TeamEditComponent implements OnInit {
 
       this.teamId = <string>this.route.snapshot.paramMap.get('id');
 
-      this.teamDoc = this.afs.doc<Tribe>(`tribes/${this.teamId}`);
+      this.teamDoc = this.afs.doc<Team>(`teams/${this.teamId}`);
       this.team = this.teamDoc.valueChanges();
       this.team.subscribe(t => {
         if (!t) {
-          this.afs.collection(`tribes`)
+          this.afs.collection(`teams`)
             .doc(this.teamId)
             .set({ adminIds: [this.user?.uid] });
         }

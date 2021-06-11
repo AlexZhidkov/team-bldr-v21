@@ -6,8 +6,8 @@ import { MatListOption } from '@angular/material/list/selection-list';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Member } from '../models/member';
+import { Team } from '../models/team';
 import { TeamEvent } from '../models/team-event';
-import { Tribe } from '../models/tribe';
 
 @Component({
   selector: 'app-team-event',
@@ -16,13 +16,13 @@ import { Tribe } from '../models/tribe';
 })
 export class TeamEventComponent implements OnInit {
   user: firebase.default.User | null;
-  tribe: Tribe;
+  team: Team;
   members: Member[];
   membersInvited: Member[];
   membersAccepted: Member[];
   membersRejected: Member[];
   eventId: string | null;
-  tribeId = 'test';
+  teamId = 'test';
   teamEventDoc: AngularFirestoreDocument<TeamEvent>;
   teamEvent: Observable<TeamEvent | undefined>;
   eventDate: Date;
@@ -41,19 +41,19 @@ export class TeamEventComponent implements OnInit {
     if (!this.eventId) {
       console.log('New Event');
       this.eventId = this.afs.createId();
-      this.afs.collection(`/tribes/${this.tribeId}/events`)
+      this.afs.collection(`/teams/${this.teamId}/events`)
         .doc(this.eventId)
         .set({});
     }
 
-    this.afs.doc<Tribe>(`tribes/${this.tribeId}`).get().subscribe(doc => {
-      const tribeData = doc.data();
-      if (tribeData) {
-        this.tribe = tribeData;
+    this.afs.doc<Team>(`teams/${this.teamId}`).get().subscribe(doc => {
+      const teamData = doc.data();
+      if (teamData) {
+        this.team = teamData;
       }
     })
 
-    this.teamEventDoc = this.afs.doc<TeamEvent>(`tribes/${this.tribeId}/events/${this.eventId}`);
+    this.teamEventDoc = this.afs.doc<TeamEvent>(`teams/${this.teamId}/events/${this.eventId}`);
     this.teamEvent = this.teamEventDoc.valueChanges();
     this.teamEvent.subscribe(te => {
       if (te?.dateTime) {
@@ -62,10 +62,10 @@ export class TeamEventComponent implements OnInit {
       }
     });
 
-    var membersCollection = this.afs.collection<any>('tribes/test/members');
+    var membersCollection = this.afs.collection<any>('teams/test/members');
     membersCollection.valueChanges({ idField: 'userId' }).subscribe(list => this.members = list);
 
-    this.eventMembersCollection = this.afs.collection<any>(`tribes/${this.tribeId}/events/${this.eventId}/members`);
+    this.eventMembersCollection = this.afs.collection<any>(`teams/${this.teamId}/events/${this.eventId}/members`);
     this.eventMembersCollection.valueChanges({ idField: 'userId' }).subscribe(list => {
       this.membersInvited = list.filter(m => m.status === 'invited');
       this.membersAccepted = list.filter(m => m.status === 'accepted');

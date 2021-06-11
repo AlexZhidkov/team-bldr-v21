@@ -28,14 +28,14 @@
 
     <mat-card *ngIf="user">
         <mat-card-header>
-            <mat-card-title>{{(tribe | async)?.name}}</mat-card-title>
-            <span fxFlex></span> <button mat-icon-button routerLink="/team">
+            <mat-card-title>{{(team | async)?.name}}</mat-card-title>
+            <span fxFlex></span> <button mat-icon-button [routerLink]="'/team/' + teamId">
                 <mat-icon>edit</mat-icon>
             </button>
         </mat-card-header>
         <mat-card-content>
             <p>
-                {{(tribe | async)?.description}}
+                {{(team | async)?.description}}
             </p>
             <p>
                 To invite someone to join the group ask them to click on thi link to sign up

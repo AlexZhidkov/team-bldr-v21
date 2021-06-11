@@ -3,8 +3,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Team } from '../models/team';
 import { TeamEvent } from '../models/team-event';
-import { Tribe } from '../models/tribe';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +13,10 @@ import { Tribe } from '../models/tribe';
 })
 export class HomeComponent implements OnInit {
   user: firebase.default.User | null;
-  tribeDoc: AngularFirestoreDocument<Tribe>;
-  tribe: Observable<Tribe | undefined>;
+  teamDoc: AngularFirestoreDocument<Team>;
+  team: Observable<Team | undefined>;
   teamEvents: TeamEvent[];
-  tribeId = 'test';
+  teamId = 'test';
   isLoading = true;
 
   constructor(
@@ -33,11 +33,11 @@ export class HomeComponent implements OnInit {
         return;
       }
 
-      this.tribeDoc = this.afs.doc<Tribe>(`tribes/${this.tribeId}`);
-      this.tribe = this.tribeDoc.valueChanges();
-      this.tribe.subscribe(() => this.isLoading = false);
+      this.teamDoc = this.afs.doc<Team>(`teams/${this.teamId}`);
+      this.team = this.teamDoc.valueChanges();
+      this.team.subscribe(() => this.isLoading = false);
 
-      this.afs.collection<TeamEvent>(`/tribes/${this.tribeId}/events`, ref => ref.orderBy('dateTime', 'desc'))
+      this.afs.collection<TeamEvent>(`/teams/${this.teamId}/events`, ref => ref.orderBy('dateTime', 'desc'))
         .valueChanges({ idField: 'id' })
         .subscribe(events => this.teamEvents = events);
     },
