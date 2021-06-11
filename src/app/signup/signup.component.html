@@ -6,17 +6,17 @@
     <mat-card-content>
         <mat-form-field class="full-width">
             <mat-label>Your Name</mat-label>
-            <input matInput name="name" [ngModel]="(user | async)?.displayName"
-                (ngModelChange)="userDoc.update({displayName: $event})">
+            <input matInput name="name" [ngModel]="(member | async)?.displayName"
+                (ngModelChange)="memberDoc.update({displayName: $event})">
         </mat-form-field>
         <mat-form-field class="full-width">
             <mat-label>Phone Number Name</mat-label>
-            <input matInput name="phone" [ngModel]="(user | async)?.phoneNumber"
-                (ngModelChange)="userDoc.update({phoneNumber: $event})">
+            <input matInput name="phone" [ngModel]="(member | async)?.phoneNumber"
+                (ngModelChange)="memberDoc.update({phoneNumber: $event})">
         </mat-form-field>
         <mat-form-field class="full-width">
             <textarea matInput rows="5" placeholder="Additional information" name="info"
-                [ngModel]="(user | async)?.info" (ngModelChange)="userDoc.update({info: $event})"></textarea>
+                [ngModel]="(member | async)?.info" (ngModelChange)="memberDoc.update({info: $event})"></textarea>
         </mat-form-field>
     </mat-card-content>
     <mat-card-actions>

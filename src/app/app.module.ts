@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireFunctionsModule, REGION, USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
@@ -22,6 +23,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { InviteUrlComponent } from './invite-url/invite-url.component';
 import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
 import { SendMessageComponent } from './send-message/send-message.component';
@@ -39,6 +41,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
     MessagesComponent,
     TeamEditComponent,
     SignupComponent,
+    InviteUrlComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +62,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
       registrationStrategy: 'registerWhenStable:30000'
     }),
     FlexLayoutModule,
+    ClipboardModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,

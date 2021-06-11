@@ -47,7 +47,8 @@
 
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" (click)="sendInvites(membersList.selectedOptions.selected)">
+        <button mat-raised-button color="primary"
+            (click)="sendInvites(membersList.selectedOptions.selected); membersList.deselectAll()">
             SEND INVITES
         </button>
         <button mat-raised-button (click)="membersList.selectAll()">

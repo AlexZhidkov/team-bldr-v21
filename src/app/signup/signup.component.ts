@@ -12,8 +12,8 @@ import { TeamBuilderUser } from '../models/teamBuilderUser';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  userDoc: AngularFirestoreDocument<TeamBuilderUser>;
-  user: Observable<TeamBuilderUser | undefined>;
+  memberDoc: AngularFirestoreDocument<TeamBuilderUser>;
+  member: Observable<TeamBuilderUser | undefined>;
   teamId: string;
   team: Observable<Team | undefined>;
   isLoading = true;
@@ -33,11 +33,15 @@ export class SignupComponent implements OnInit {
       }
       this.teamId = <string>this.route.snapshot.paramMap.get('id');
       this.team = this.afs.doc<Team>(`teams/${this.teamId}`).valueChanges();
-
-      this.userDoc = this.afs.collection('users').doc(user.uid);
-      this.userDoc.update({ teamId: this.teamId });
-      this.user = this.userDoc.valueChanges();
-      this.isLoading = false;
+      this.afs.doc(`users/${user.uid}`).update({ teamId: this.teamId });
+      this.afs.collection(`teams/${this.teamId}/members`).doc(user.uid).set({
+        name: user.displayName,
+        phoneNumber: user.phoneNumber,
+      }).then(() => {
+        this.memberDoc = this.afs.collection(`teams/${this.teamId}/members`).doc(user.uid);
+        this.member = this.memberDoc.valueChanges();
+        this.isLoading = false;
+      })
     },
       (error) => {
         console.error(error);

@@ -15,9 +15,7 @@
                 [ngModel]="(team | async)?.description"
                 (ngModelChange)="teamDoc.update({description: $event})"></textarea>
         </mat-form-field>
-        <p>
-            To invite someone to join the group ask them to click on thi link to sign up
-        </p>
+        <app-invite-url [teamId]="teamId"></app-invite-url>
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" [routerLink]="'/event/'+teamId">CREATE NEW EVENT</button>

@@ -44,15 +44,12 @@ export class TeamEventComponent implements OnInit {
       console.error('Team ID is falsy');
       return;
     }
+
     const eventId = this.route.snapshot.paramMap.get('eventId');
     if (eventId) {
-      this.eventId = eventId;
-    } else {
-      console.error('Event ID is falsy');
-      return;
+      this.teamId = teamId;
     }
-
-    if (!this.eventId) {
+    else {
       console.log('New Event');
       this.eventId = this.afs.createId();
       this.afs.collection(`/teams/${this.teamId}/events`)
@@ -76,7 +73,7 @@ export class TeamEventComponent implements OnInit {
       }
     });
 
-    var membersCollection = this.afs.collection<any>('teams/test/members');
+    var membersCollection = this.afs.collection<any>(`teams/${this.teamId}/members`);
     membersCollection.valueChanges({ idField: 'userId' }).subscribe(list => this.members = list);
 
     this.eventMembersCollection = this.afs.collection<any>(`teams/${this.teamId}/events/${this.eventId}/members`);

@@ -11,7 +11,7 @@ import { Team } from '../models/team';
   styleUrls: ['./team-edit.component.css']
 })
 export class TeamEditComponent implements OnInit {
-  user: firebase.default.User | null;
+  user: firebase.default.User;
   teamDoc: AngularFirestoreDocument<Team>;
   team: Observable<Team | undefined>;
   teamId: string;
@@ -25,11 +25,11 @@ export class TeamEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user.subscribe(user => {
-      this.user = user;
-      if (!this.user) {
+      if (!user) {
         this.isLoading = false;
         return;
       }
+      this.user = user;
 
       this.teamId = <string>this.route.snapshot.paramMap.get('id');
 
@@ -41,6 +41,10 @@ export class TeamEditComponent implements OnInit {
             .doc(this.teamId)
             .set({ adminIds: [this.user?.uid] });
           this.afs.collection('users').doc(this.user?.uid).update({ teamId: this.teamId });
+          this.afs.collection(`teams/${this.teamId}/members`).doc(this.user.uid).set({
+            name: user.displayName,
+            phoneNumber: user.phoneNumber,
+          })
         }
         this.isLoading = false;
       });

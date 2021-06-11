@@ -37,9 +37,7 @@
             <p>
                 {{(team | async)?.description}}
             </p>
-            <p>
-                To invite someone to join the group ask them to click on thi link to sign up
-            </p>
+            <app-invite-url [teamId]="user.teamId"></app-invite-url>
         </mat-card-content>
         <mat-card-actions>
             <button mat-raised-button color="primary" [routerLink]="'/event/' + user.teamId">CREATE NEW EVENT</button>
