@@ -1,0 +1,11 @@
+<button mat-raised-button [color]="currentStatus==='accepted' ? 'primary' : undefined"
+    (click)="sendResponse('accepted')">
+    ACCEPT
+</button>
+<button mat-raised-button [color]="currentStatus==='rejected' ? 'primary' : undefined"
+    (click)="sendResponse('rejected')">
+    REJECT
+</button>
+<button mat-raised-button [color]="currentStatus==='invited' ? 'primary' : undefined" (click)="sendResponse('invited')">
+    UNDECIDED
+</button>

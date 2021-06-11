@@ -22,6 +22,7 @@ import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EventRegistrationComponent } from './event-registration/event-registration.component';
 import { HomeComponent } from './home/home.component';
 import { InviteUrlComponent } from './invite-url/invite-url.component';
 import { LoginComponent } from './login/login.component';
@@ -42,6 +43,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
     TeamEditComponent,
     SignupComponent,
     InviteUrlComponent,
+    EventRegistrationComponent,
   ],
   imports: [
     BrowserModule,

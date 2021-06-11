@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { MatListOption } from '@angular/material/list/selection-list';
@@ -30,7 +29,6 @@ export class TeamEventComponent implements OnInit {
   eventMembersCollection: AngularFirestoreCollection<Member>;
 
   constructor(
-    private auth: AngularFireAuth,
     private afs: AngularFirestore,
     private fns: AngularFireFunctions,
     private route: ActivatedRoute,
@@ -47,7 +45,7 @@ export class TeamEventComponent implements OnInit {
 
     const eventId = this.route.snapshot.paramMap.get('eventId');
     if (eventId) {
-      this.teamId = teamId;
+      this.eventId = eventId;
     }
     else {
       console.log('New Event');

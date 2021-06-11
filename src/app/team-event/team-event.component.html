@@ -2,6 +2,9 @@
     <mat-card-header>
         <mat-card-title>{{team?.name}}</mat-card-title>
     </mat-card-header>
+    <mat-card-actions>
+        <app-event-registration [teamId]="teamId" [eventId]="eventId"></app-event-registration>
+    </mat-card-actions>
     <mat-card-content>
         <div fxLayout='row'>
             <mat-form-field fxFlex="45%">
