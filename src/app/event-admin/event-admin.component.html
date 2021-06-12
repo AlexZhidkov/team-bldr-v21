@@ -2,9 +2,6 @@
     <mat-card-header>
         <mat-card-title>{{team?.name}}</mat-card-title>
     </mat-card-header>
-    <mat-card-actions>
-        <app-event-registration [teamId]="teamId" [eventId]="eventId"></app-event-registration>
-    </mat-card-actions>
     <mat-card-content>
         <div fxLayout='row'>
             <mat-form-field fxFlex="45%">
@@ -26,29 +23,16 @@
             <input matInput name="eventName" [ngModel]="(teamEvent | async)?.name"
                 (ngModelChange)="teamEventDoc.update({name: $event})">
         </mat-form-field>
-
-        <mat-label>Accepted: <strong>{{membersAccepted?.length}}</strong></mat-label>
-        <mat-chip-list aria-label="Accepted" selectable=false>
-            <mat-chip *ngFor="let member of membersAccepted">
-                {{member.name}}
-            </mat-chip>
-        </mat-chip-list>
-
-        <mat-label>Invited: <strong>{{membersInvited?.length}}</strong></mat-label>
-        <mat-chip-list aria-label="Invited" selectable=false>
-            <mat-chip *ngFor="let member of membersInvited">
-                {{member.name}}
-            </mat-chip>
-        </mat-chip-list>
-
-        <mat-label>Rejected: <strong>{{membersRejected?.length}}</strong></mat-label>
-        <mat-chip-list aria-label="Invited" selectable=false>
-            <mat-chip *ngFor="let member of membersRejected">
-                {{member.name}}
-            </mat-chip>
-        </mat-chip-list>
-
     </mat-card-content>
+
+    <mat-card-actions>
+        <app-event-registration [teamId]="teamId" [eventId]="eventId"></app-event-registration>
+    </mat-card-actions>
+
+    <app-event-members-status [teamId]="teamId" [eventId]="eventId"></app-event-members-status>
+</mat-card>
+
+<mat-card>
     <mat-card-actions>
         <button mat-raised-button color="primary"
             (click)="sendInvites(membersList.selectedOptions.selected); membersList.deselectAll()">

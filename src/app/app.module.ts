@@ -23,6 +23,7 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EventAdminComponent } from './event-admin/event-admin.component';
+import { EventMembersStatusComponent } from './event-members-status/event-members-status.component';
 import { EventRegistrationComponent } from './event-registration/event-registration.component';
 import { HomeComponent } from './home/home.component';
 import { InviteUrlComponent } from './invite-url/invite-url.component';
@@ -46,6 +47,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
     InviteUrlComponent,
     EventRegistrationComponent,
     EventAdminComponent,
+    EventMembersStatusComponent,
   ],
   imports: [
     BrowserModule,

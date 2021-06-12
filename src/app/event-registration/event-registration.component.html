@@ -1,11 +1,11 @@
-<button mat-raised-button [color]="currentStatus==='accepted' ? 'primary' : undefined"
+<button mat-raised-button [color]="currentStatus==='accepted' ? 'accent' : undefined"
     (click)="sendResponse('accepted')">
     ACCEPT
 </button>
-<button mat-raised-button [color]="currentStatus==='rejected' ? 'primary' : undefined"
+<button mat-raised-button [color]="currentStatus==='rejected' ? 'accent' : undefined"
     (click)="sendResponse('rejected')">
     REJECT
 </button>
-<button mat-raised-button [color]="currentStatus==='invited' ? 'primary' : undefined" (click)="sendResponse('invited')">
+<button mat-raised-button [color]="currentStatus==='invited' ? 'accent' : undefined" (click)="sendResponse('invited')">
     UNDECIDED
 </button>

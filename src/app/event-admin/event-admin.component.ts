@@ -16,12 +16,8 @@ import { TeamEvent } from '../models/team-event';
 export class EventAdminComponent implements OnInit {
   @ViewChild('membersList') membersList: MatSelectionList;
 
-  user: firebase.default.User | null;
   team: Team;
   members: Member[];
-  membersInvited: Member[];
-  membersAccepted: Member[];
-  membersRejected: Member[];
   teamId: string;
   eventId: string;
   teamEventDoc: AngularFirestoreDocument<TeamEvent>;
@@ -31,7 +27,6 @@ export class EventAdminComponent implements OnInit {
   eventMembersCollection: AngularFirestoreCollection<Member>;
   showMessages: boolean = false;
   showMembers: boolean = true;
-  showExtra: string = 'members';
 
   constructor(
     private afs: AngularFirestore,
@@ -80,11 +75,6 @@ export class EventAdminComponent implements OnInit {
     membersCollection.valueChanges({ idField: 'userId' }).subscribe(list => this.members = list);
 
     this.eventMembersCollection = this.afs.collection<any>(`teams/${this.teamId}/events/${this.eventId}/members`);
-    this.eventMembersCollection.valueChanges({ idField: 'userId' }).subscribe(list => {
-      this.membersInvited = list.filter(m => m.status === 'invited');
-      this.membersAccepted = list.filter(m => m.status === 'accepted');
-      this.membersRejected = list.filter(m => m.status === 'rejected');
-    });
   }
 
   updateEventDate(date: Date): void {
