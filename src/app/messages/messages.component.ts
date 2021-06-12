@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Message } from '../models/message';
 
@@ -11,35 +10,19 @@ import { Message } from '../models/message';
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
+  @Input() teamId: string;
+  @Input() eventId: string;
   user: firebase.default.User | null;
   private messagesCollection: AngularFirestoreCollection<Message>;
   messages: Observable<Message[]>;
   text: string;
-  teamId: string;
-  eventId: string | null;
 
   constructor(
     private auth: AngularFireAuth,
     private afs: AngularFirestore,
-    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
-    const teamId = this.route.snapshot.paramMap.get('teamId');
-    if (teamId) {
-      this.teamId = teamId;
-    } else {
-      console.error('Team ID is falsy');
-      return;
-    }
-    const eventId = this.route.snapshot.paramMap.get('eventId');
-    if (eventId) {
-      this.eventId = eventId;
-    } else {
-      console.error('Event ID is falsy');
-      return;
-    }
-
     this.auth.user.subscribe(user => {
       this.user = user;
     });

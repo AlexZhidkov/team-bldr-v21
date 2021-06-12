@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
-import { Member } from '../models/member';
+import { Member, MemberEventStatus } from '../models/member';
 
 @Component({
   selector: 'app-event-registration',
@@ -30,7 +30,7 @@ export class EventRegistrationComponent implements OnInit {
     })
   }
 
-  sendResponse(status: 'accepted' | 'rejected' | 'invited'): void {
+  sendResponse(status: MemberEventStatus): void {
     this.memberDoc.update({ status: status });
   }
 }

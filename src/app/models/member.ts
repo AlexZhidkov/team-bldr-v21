@@ -1,5 +1,6 @@
+export type MemberEventStatus = 'invited' | 'accepted' | 'rejected'
 export interface Member {
     id?: string;
     name: string;
-    status?: 'invited' | 'accepted' | 'rejected'
+    status?: MemberEventStatus;
 }

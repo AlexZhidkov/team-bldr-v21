@@ -40,7 +40,9 @@
             <app-invite-url [teamId]="user.teamId"></app-invite-url>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary" [routerLink]="'/event/' + user.teamId">CREATE NEW EVENT</button>
+            <button mat-raised-button color="primary" [routerLink]="'/event-admin/' + user.teamId">
+                CREATE NEW EVENT
+            </button>
         </mat-card-actions>
     </mat-card>
 </div>

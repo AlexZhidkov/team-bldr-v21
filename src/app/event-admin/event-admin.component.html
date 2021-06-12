@@ -1,0 +1,75 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{team?.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-actions>
+        <app-event-registration [teamId]="teamId" [eventId]="eventId"></app-event-registration>
+    </mat-card-actions>
+    <mat-card-content>
+        <div fxLayout='row'>
+            <mat-form-field fxFlex="45%">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" [ngModel]="eventDate"
+                    (dateChange)="updateEventDate($event.value)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <span fxFlex="10%"></span>
+            <mat-form-field fxFlex="45%">
+                <input type="time" matInput placeholder="Start Time" [ngModel]="eventTime" name="startTime"
+                    (ngModelChange)="updateEventTime($event)">
+            </mat-form-field>
+        </div>
+
+        <mat-form-field class="full-width">
+            <mat-label>Message</mat-label>
+            <input matInput name="eventName" [ngModel]="(teamEvent | async)?.name"
+                (ngModelChange)="teamEventDoc.update({name: $event})">
+        </mat-form-field>
+
+        <mat-label>Accepted: <strong>{{membersAccepted?.length}}</strong></mat-label>
+        <mat-chip-list aria-label="Accepted" selectable=false>
+            <mat-chip *ngFor="let member of membersAccepted">
+                {{member.name}}
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-label>Invited: <strong>{{membersInvited?.length}}</strong></mat-label>
+        <mat-chip-list aria-label="Invited" selectable=false>
+            <mat-chip *ngFor="let member of membersInvited">
+                {{member.name}}
+            </mat-chip>
+        </mat-chip-list>
+
+        <mat-label>Rejected: <strong>{{membersRejected?.length}}</strong></mat-label>
+        <mat-chip-list aria-label="Invited" selectable=false>
+            <mat-chip *ngFor="let member of membersRejected">
+                {{member.name}}
+            </mat-chip>
+        </mat-chip-list>
+
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary"
+            (click)="sendInvites(membersList.selectedOptions.selected); membersList.deselectAll()">
+            SEND INVITES
+        </button>
+        <button mat-raised-button (click)="membersList.selectAll()">
+            SELECT ALL
+        </button>
+        <button mat-raised-button *ngIf="showMessages" (click)="showMembers=true; showMessages=false;">
+            MEMBERS
+        </button>
+        <button mat-raised-button *ngIf="showMembers" (click)="showMembers=false; showMessages=true;">
+            MESSAGES
+        </button>
+    </mat-card-actions>
+</mat-card>
+
+<mat-selection-list *ngIf="showMembers" #membersList>
+    <mat-list-option *ngFor="let member of members" [value]="member">
+        {{member.name}}
+    </mat-list-option>
+</mat-selection-list>
+
+<app-messages *ngIf="showMessages" [teamId]="teamId" [eventId]="eventId"></app-messages>
