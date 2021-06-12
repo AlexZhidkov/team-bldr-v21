@@ -30,9 +30,7 @@ export class TeamEditComponent implements OnInit {
         return;
       }
       this.user = user;
-
       this.teamId = <string>this.route.snapshot.paramMap.get('id');
-
       this.teamDoc = this.afs.doc<Team>(`teams/${this.teamId}`);
       this.team = this.teamDoc.valueChanges();
       this.team.subscribe(t => {

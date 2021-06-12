@@ -57,6 +57,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireFunctionsModule,
     NgxAuthFirebaseUIModule.forRoot(environment.firebase, undefined, {
+      enableEmailVerification: false,
       toastMessageOnAuthSuccess: false,
       authGuardFallbackURL: '/login',
       authGuardLoggedInURL: '/'

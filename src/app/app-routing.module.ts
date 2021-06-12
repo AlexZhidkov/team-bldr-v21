@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoggedInGuard } from 'ngx-auth-firebaseui';
+import { CanActivateGuard } from './can-activate.guard';
 import { EventAdminComponent } from './event-admin/event-admin.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -10,11 +10,11 @@ import { TeamEventComponent } from './team-event/team-event.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'signup/:id', component: SignupComponent, canActivate: [LoggedInGuard] },
-  { path: 'team/:id', component: TeamEditComponent, canActivate: [LoggedInGuard] },
-  { path: 'event/:teamId/:eventId', component: TeamEventComponent, canActivate: [LoggedInGuard] },
-  { path: 'event-admin/:teamId/:eventId', component: EventAdminComponent, canActivate: [LoggedInGuard] },
-  { path: 'event-admin/:teamId', component: EventAdminComponent, canActivate: [LoggedInGuard] },
+  { path: 'signup/:id', component: SignupComponent, canActivate: [CanActivateGuard] },
+  { path: 'team/:id', component: TeamEditComponent, canActivate: [CanActivateGuard] },
+  { path: 'event/:teamId/:eventId', component: TeamEventComponent, canActivate: [CanActivateGuard] },
+  { path: 'event-admin/:teamId/:eventId', component: EventAdminComponent, canActivate: [CanActivateGuard] },
+  { path: 'event-admin/:teamId', component: EventAdminComponent, canActivate: [CanActivateGuard] },
   { path: '', component: HomeComponent }
 ];
 

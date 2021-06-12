@@ -6,7 +6,7 @@
     <mat-card-content>
         <mat-form-field class="full-width">
             <mat-label>Name</mat-label>
-            <input matInput name="eventName" [ngModel]="(team | async)?.name"
+            <input matInput #eventName [ngModel]="(team | async)?.name"
                 (ngModelChange)="teamDoc.update({name: $event})">
         </mat-form-field>
 
@@ -15,9 +15,12 @@
                 [ngModel]="(team | async)?.description"
                 (ngModelChange)="teamDoc.update({description: $event})"></textarea>
         </mat-form-field>
-        <app-invite-url [teamId]="teamId"></app-invite-url>
+
+        <app-invite-url *ngIf="teamId" [teamId]="teamId"></app-invite-url>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary" [routerLink]="'/event/'+teamId">CREATE NEW EVENT</button>
+        <button mat-raised-button color="primary" [routerLink]="'/event/'+teamId" [disabled]="!eventName.value">
+            CREATE NEW EVENT
+        </button>
     </mat-card-actions>
 </mat-card>

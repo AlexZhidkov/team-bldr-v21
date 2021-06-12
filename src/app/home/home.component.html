@@ -1,7 +1,7 @@
 <mat-spinner style="margin:0 auto;" *ngIf="isLoading"></mat-spinner>
 
 <div *ngIf="!isLoading">
-    <mat-card *ngIf="!user">
+    <mat-card *ngIf="!user || !team">
         <mat-card-header>
             <mat-card-title>Welcome to Team Builder App </mat-card-title>
         </mat-card-header>
@@ -9,16 +9,16 @@
             <p>
                 To become a member of existing team please ask the team administrator for a signup link.
             </p>
-            <p>
+            <p *ngIf="!user">
                 If you're a member already please sign in.
             </p>
         </mat-card-content>
-        <mat-card-actions>
+        <mat-card-actions *ngIf="!user">
             <button mat-raised-button color="accent" routerLink="/login">SIGN IN</button>
         </mat-card-actions>
         <mat-card-content>
             <p>
-                To start a new team.
+                Use the button below to become an administrator of a new team.
             </p>
         </mat-card-content>
         <mat-card-actions>
@@ -26,7 +26,7 @@
         </mat-card-actions>
     </mat-card>
 
-    <mat-card *ngIf="user">
+    <mat-card *ngIf="user && team">
         <mat-card-header>
             <mat-card-title>{{team?.name}}</mat-card-title>
             <span fxFlex></span>
@@ -41,7 +41,8 @@
             <app-invite-url *ngIf="isAdmin" [teamId]="user.teamId"></app-invite-url>
         </mat-card-content>
         <mat-card-actions *ngIf="isAdmin">
-            <button mat-raised-button color="primary" [routerLink]="'/event-admin/' + user.teamId">
+            <button mat-raised-button color="primary" [routerLink]="'/event-admin/' + user.teamId"
+                [disabled]="!team.name">
                 CREATE NEW EVENT
             </button>
         </mat-card-actions>
