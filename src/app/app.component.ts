@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   showSignInButton: boolean = false;
   avatarLinks: LinkMenuItem[] = [
     { icon: 'notifications', text: 'Enable Notifications', callback: () => { this.permitToNotify(); } },
-    { icon: 'event_note', text: 'Events', callback: () => { this.router.navigate(['events']); } },
+    { icon: 'account_circle', text: 'Profile', callback: () => { this.router.navigate(['profile']); } },
   ];
 
   constructor(

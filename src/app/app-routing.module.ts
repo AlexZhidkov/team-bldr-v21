@@ -10,6 +10,7 @@ import { TeamEventComponent } from './team-event/team-event.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'profile', component: SignupComponent, canActivate: [CanActivateGuard] },
   { path: 'signup/:id', component: SignupComponent, canActivate: [CanActivateGuard] },
   { path: 'team/:id', component: TeamEditComponent, canActivate: [CanActivateGuard] },
   { path: 'event/:teamId/:eventId', component: TeamEventComponent, canActivate: [CanActivateGuard] },

@@ -32,21 +32,37 @@ export class SignupComponent implements OnInit {
         return;
       }
       this.teamId = <string>this.route.snapshot.paramMap.get('id');
-      this.team = this.afs.doc<Team>(`teams/${this.teamId}`).valueChanges();
-      this.afs.doc(`users/${user.uid}`).update({ teamId: this.teamId });
-      this.afs.collection(`teams/${this.teamId}/members`).doc(user.uid).set({
-        name: user.displayName,
-        phoneNumber: user.phoneNumber,
-      }).then(() => {
-        this.memberDoc = this.afs.collection(`teams/${this.teamId}/members`).doc(user.uid);
-        this.member = this.memberDoc.valueChanges();
-        this.isLoading = false;
-      })
+
+      if (!this.teamId) {
+        this.afs.doc<TeamBuilderUser>(`users/${user.uid}`).get().subscribe((userDoc) => {
+          const user = userDoc.data();
+          if (user) {
+            this.teamId = user.teamId;
+            this.team = this.afs.doc<Team>(`teams/${this.teamId}`).valueChanges();
+            this.getMemberInfo(user.uid);
+          }
+        })
+      } else {
+        this.team = this.afs.doc<Team>(`teams/${this.teamId}`).valueChanges();
+        this.afs.doc(`users/${user.uid}`).update({ teamId: this.teamId });
+        this.afs.collection(`teams/${this.teamId}/members`).doc(user.uid).set({
+          name: user.displayName,
+          phoneNumber: user.phoneNumber,
+        }).then(() => {
+          this.getMemberInfo(user.uid);
+        })
+      }
     },
       (error) => {
         console.error(error);
         this.isLoading = false;
       });
+  }
+
+  getMemberInfo(userId: string) {
+    this.memberDoc = this.afs.collection(`teams/${this.teamId}/members`).doc(userId);
+    this.member = this.memberDoc.valueChanges();
+    this.isLoading = false;
   }
 
 }
