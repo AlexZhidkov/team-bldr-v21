@@ -1,17 +1,19 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>{{team?.name}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        {{eventDate | date:'fullDate'}} at {{eventDate | date:'shortTime'}}
-        <p>{{(teamEvent | async)?.name}}</p>
-    </mat-card-content>
-    <mat-card-actions>
-        <app-event-registration [teamId]="teamId" [eventId]="eventId"></app-event-registration>
-    </mat-card-actions>
-    <mat-card-content>
-        <app-event-members-status [teamId]="teamId" [eventId]="eventId"></app-event-members-status>
-    </mat-card-content>
-</mat-card>
+<div *ngIf="teamId && eventId">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{team?.name}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            {{eventDate | date:'fullDate'}} at {{eventDate | date:'shortTime'}}
+            <p>{{(teamEvent | async)?.name}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <app-event-registration [teamId]="teamId" [eventId]="eventId"></app-event-registration>
+        </mat-card-actions>
+        <mat-card-content>
+            <app-event-members-status [teamId]="teamId" [eventId]="eventId"></app-event-members-status>
+        </mat-card-content>
+    </mat-card>
 
-<app-messages [teamId]="teamId" [eventId]="eventId"></app-messages>
+    <app-messages [teamId]="teamId" [eventId]="eventId"></app-messages>
+</div>

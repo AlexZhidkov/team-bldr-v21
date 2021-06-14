@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'profile', component: SignupComponent, canActivate: [CanActivateGuard] },
   { path: 'signup/:id', component: SignupComponent, canActivate: [CanActivateGuard] },
   { path: 'team/:id', component: TeamEditComponent, canActivate: [CanActivateGuard] },
+  { path: 'event/:teamId/:eventId/:status', component: TeamEventComponent, canActivate: [CanActivateGuard] },
   { path: 'event/:teamId/:eventId', component: TeamEventComponent, canActivate: [CanActivateGuard] },
   { path: 'event-admin/:teamId/:eventId', component: EventAdminComponent, canActivate: [CanActivateGuard] },
   { path: 'event-admin/:teamId', component: EventAdminComponent, canActivate: [CanActivateGuard] },
