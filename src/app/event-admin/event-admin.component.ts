@@ -24,6 +24,7 @@ export class EventAdminComponent implements OnInit {
   teamEvent: Observable<TeamEvent | undefined>;
   eventDate: Date;
   eventTime: string;
+  message: string | undefined;
   eventMembersCollection: AngularFirestoreCollection<Member>;
   showMessages: boolean = false;
   showMembers: boolean = true;
@@ -69,6 +70,7 @@ export class EventAdminComponent implements OnInit {
         this.eventDate = (te.dateTime as firebase.default.firestore.Timestamp).toDate();
         this.eventTime = this.eventDate.toTimeString().substring(0, 5); // `${this.eventDate.getHours()}:${this.eventDate.getMinutes()}`;
       }
+      this.message = te?.name;
     });
 
     var membersCollection = this.afs.collection<any>(`teams/${this.teamId}/members`);
@@ -99,7 +101,24 @@ export class EventAdminComponent implements OnInit {
     selectedMembers.forEach((member: MatListOption) => {
       const userId = member.value.userId;
       this.eventMembersCollection.doc(userId).set({ name: member.value.name, status: 'invited' });
+      this.sendEmail(userId);
       //this.sendPushMessage(userId);
+    });
+  }
+
+  sendEmail(userId: string) {
+    const sendEmail = this.fns.httpsCallable('sendEmail');
+    const data = {
+      memberEmail: 'azhidkov@gmail.com',
+      teamName: this.team.name,
+      teamId: this.teamId,
+      eventId: this.eventId,
+      // https://stackoverflow.com/questions/63912795/how-to-pass-a-js-date-object-to-cloud-function-for-storing-it-on-firestore
+      dateTime: this.eventDate.getTime(),
+      message: this.message,
+    };
+    sendEmail(data).subscribe(r => {
+      console.log(r);
     });
   }
 
@@ -137,7 +156,6 @@ export class EventAdminComponent implements OnInit {
       }
     }).subscribe(r => {
       console.log(r);
-      debugger;
     });
   }
 }

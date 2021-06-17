@@ -7,6 +7,9 @@ https://github.com/angular/angularfire/discussions/1923
 
 https://medium.com/litslink/firebase-admin-sdk-basics-in-examples-ee7e009a1116
 
+Sending Emails:
+https://github.com/firebase/functions-samples/blob/master/quickstarts/email-users/functions/index.js
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -15,6 +18,14 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 `http-server-spa dist/ index.html 18080`
 
 `$ firebase deploy --only functions`
+
+`$ firebase emulators:start`
+
+If you're using custom functions configuration variables, first run the command to get your custom config (run this within the functions directory) in your local environment:
+```
+firebase functions:config:get > .runtimeconfig.json
+firebase functions:shell
+```
 
 ## Code scaffolding
 

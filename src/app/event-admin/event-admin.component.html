@@ -20,8 +20,7 @@
 
         <mat-form-field class="full-width">
             <mat-label>Message</mat-label>
-            <input matInput name="eventName" [ngModel]="(teamEvent | async)?.name"
-                (ngModelChange)="teamEventDoc.update({name: $event})">
+            <input matInput name="eventName" [ngModel]="message" (ngModelChange)="teamEventDoc.update({name: $event})">
         </mat-form-field>
     </mat-card-content>
 
