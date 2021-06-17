@@ -2,7 +2,7 @@ export const environment = {
   production: true,
   useEmulators: false,
   firebase: {
-    apiKey: "AIzaSyAX7z8C60wsmx071CEXI36afIdW0dRwecw",
+    apiKey: "",
     authDomain: "team-bldr.firebaseapp.com",
     databaseURL: "https://team-bldr.firebaseio.com",
     projectId: "team-bldr",
