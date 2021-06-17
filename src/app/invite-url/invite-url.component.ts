@@ -12,7 +12,7 @@ export class InviteUrlComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.signupURL = `https://teambldr.web.app/signup/${this.teamId}`;
+    this.signupURL = `https://team-bldr.web.app/signup/${this.teamId}`;
   }
 
 }

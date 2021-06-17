@@ -63,8 +63,8 @@ exports.sendEmail = functions.region('australia-southeast1').https.onCall(async 
         to: `${data.memberEmail}`,
     };
 
-    const dateTime = new Date(data.dateTime)
-    const eventTime = `${dateTime?.toDateString()} at ${dateTime?.toTimeString().substring(0, 5)}`;
+    const dateTime = new Date(data.dateTime);
+    const eventTime = `${dateTime.toDateString()} at ${dateTime.toTimeString().substring(0, 5)}`;
     const eventMessage = data.message;
     const urlTeamEvent = `https://team-bldr.web.app/event/${data.teamId}/${data.eventId}/`;
     const urlAccept = urlTeamEvent + 'accepted';
