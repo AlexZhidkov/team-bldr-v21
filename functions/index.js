@@ -9,7 +9,7 @@ admin.initializeApp();
 
 const firebase = require("firebase");
 firebase.initializeApp({
-    apiKey: 'AIzaSyAX7z8C60wsmx071CEXI36afIdW0dRwecw',
+    apiKey: '',
     authDomain: 'team- bldr.firebaseapp.com',
     projectId: 'team-bldr',
 });
